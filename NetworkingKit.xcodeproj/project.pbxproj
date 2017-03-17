@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		398FCEB61E744F6B00980288 /* Sources in Sources */ = {isa = PBXBuildFile; fileRef = 398FCEB51E744F6B00980288 /* Sources */; };
-		398FCEB71E744F6B00980288 /* Sources in Sources */ = {isa = PBXBuildFile; fileRef = 398FCEB51E744F6B00980288 /* Sources */; };
-		398FCEB81E744F6B00980288 /* Sources in Sources */ = {isa = PBXBuildFile; fileRef = 398FCEB51E744F6B00980288 /* Sources */; };
-		398FCEB91E744F6B00980288 /* Sources in Sources */ = {isa = PBXBuildFile; fileRef = 398FCEB51E744F6B00980288 /* Sources */; };
+		398FCF8B1E7BECFE00980288 /* Unbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398FCF8A1E7BECFE00980288 /* Unbox.swift */; };
 		52D6D9871BEFF229002C0205 /* NetworkingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* NetworkingKit.framework */; };
 		52D6D9981BEFF375002C0205 /* NetworkingKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9961BEFF375002C0205 /* NetworkingKit.swift */; };
 		52D6D99B1BEFF375002C0205 /* NetworkingKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9971BEFF375002C0205 /* NetworkingKitTests.swift */; };
@@ -48,7 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		398FCEB51E744F6B00980288 /* Sources */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Sources; sourceTree = "<group>"; };
+		398FCF8A1E7BECFE00980288 /* Unbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Unbox.swift; path = Sources/Unbox.swift; sourceTree = "<group>"; };
 		52D6D97C1BEFF229002C0205 /* NetworkingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* NetworkingKit-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NetworkingKit-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9961BEFF375002C0205 /* NetworkingKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingKit.swift; path = Sources/NetworkingKit.swift; sourceTree = "<group>"; };
@@ -121,7 +118,7 @@
 		398FCEB41E744F2200980288 /* Unbox */ = {
 			isa = PBXGroup;
 			children = (
-				398FCEB51E744F6B00980288 /* Sources */,
+				398FCF8A1E7BECFE00980288 /* Unbox.swift */,
 			);
 			name = Unbox;
 			sourceTree = "<group>";
@@ -456,7 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398FCEB61E744F6B00980288 /* Sources in Sources */,
+				398FCF8B1E7BECFE00980288 /* Unbox.swift in Sources */,
 				52D6D9981BEFF375002C0205 /* NetworkingKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,7 +470,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398FCEB81E744F6B00980288 /* Sources in Sources */,
 				52D6D9EA1BEFFFA4002C0205 /* NetworkingKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,7 +478,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398FCEB91E744F6B00980288 /* Sources in Sources */,
 				52D6DA091BF00081002C0205 /* NetworkingKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +486,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398FCEB71E744F6B00980288 /* Sources in Sources */,
 				52D6DA261BF00118002C0205 /* NetworkingKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
