@@ -8,12 +8,14 @@
 
 import Foundation
 
-/// JSON Typealias
+// MARK: - JSON Typealias
+
 public typealias JSON = Any
 public typealias JSONDictonary = [String: Any]
 public typealias StringDictonary = [String: String]
 
-/// HTTP Methods
+// MARK: - HTTP Methods
+
 public enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
@@ -21,13 +23,15 @@ public enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-/// Result Enum
+// MARK: - Result Enum
+
 public enum Result<T> {
     case success(T?)
     case failure(Error)
 }
 
-/// Netwroking Resource
+// MARK: - Netwroking Resource
+
 public protocol APIResource {
     var url: URL { get }
     var path: String { get }
@@ -36,10 +40,12 @@ public protocol APIResource {
     var headers: StringDictonary { get }
 }
 
-/// API service class
+// MARK: - API service class
+
 public final class APIService<Resource: APIResource> {
+
     /// Load API resource and convert json response into a dictionary model `T`
-    public func load<T: Unboxable>(_ resource: Resource, completion: @escaping (Result<T>) -> ()) {
+    public func load<T>(resource: Resource, parser: @escaping (JSON) -> T?, completion: @escaping (Result<T>) -> Void) {
         guard let url = URL(string: resource.path, relativeTo: resource.url) else { return }
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10)
         urlRequest.allHTTPHeaderFields = resource.headers
@@ -54,11 +60,14 @@ public final class APIService<Resource: APIResource> {
                 return
             }
 
-            guard let data = data, let result: T = try? unbox(data: data) else {
+            guard
+                let data = data,
+                let json = try? JSONSerialization.jsonObject(with: data, options: []),
+                let result: T = parser(json) else {
                 if (200...299).contains((response as! HTTPURLResponse).statusCode) {
                     DispatchQueue.main.async{ completion(.success(nil)) }
                 } else {
-                    DispatchQueue.main.async{ completion(.failure(UnboxError.customUnboxingFailed)) }
+                    DispatchQueue.main.async{ completion(.failure(NetworkingError.parsingFailed)) }
                 }
                 return
             }
@@ -69,5 +78,23 @@ public final class APIService<Resource: APIResource> {
                 print("\(response)\n\(try? JSONSerialization.jsonObject(with: data, options: []))")
             #endif
             }.resume()
+    }
+}
+
+// MARK: - Error type
+
+/// Error type that Networking throws in case an unrecoverable error was encountered
+public enum NetworkingError: Error {
+    /// Parsing data failed
+    case parsingFailed
+}
+
+/// Extension making `NetworkingError` conform to `CustomStringConvertible`
+extension NetworkingError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .parsingFailed:
+            return "[Networking] Parsing failed"
+        }
     }
 }
