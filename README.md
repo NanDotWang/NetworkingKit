@@ -1,3 +1,1 @@
-# NetworkingKit
-
-#### Master branch build status: ![](https://travis-ci.org/NanDotWang/NetworkingKit.svg?branch=master)
+# NetworkingKit ![](https://travis-ci.org/NanDotWang/NetworkingKit.svg?branch=master)
