@@ -3,3 +3,4 @@ osx_image: xcode8.3
 xcode_project: NetworkingKit.xcodeproj
 xcode_scheme: NetworkingKit-iOS
 xcode_sdk: iphonesimulator10.3
+script: xcodebuild -project NetworkingKit.xcodeproj -scheme NetworkingKit-iOS -sdk iphonesimulator10.3 build test
