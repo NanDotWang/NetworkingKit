@@ -10,7 +10,6 @@ env:
     gem install xcpretty -N --no-ri --no-rdoc
 script:
 - |
-    ./setup.sh
     if [ "$TEST_TYPE" = iOS ]; then
       set -o pipefail
       xcodebuild -project NetworkingKit.xcodeproj -scheme NetworkingKit-iOS | xcpretty
