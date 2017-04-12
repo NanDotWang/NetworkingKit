@@ -32,8 +32,8 @@ public enum Result<T> {
 
 // MARK: - Netwroking Resource
 
-public protocol APIResource {
-    var url: URL { get }
+public protocol NetworkingResource {
+    var host: URL { get }
     var path: String { get }
     var method: HTTPMethod { get }
     var parameters: JSONDictonary { get }
@@ -42,11 +42,11 @@ public protocol APIResource {
 
 // MARK: - API service class
 
-public final class APIService<Resource: APIResource> {
+public final class NetworkingService<Resource: NetworkingResource> {
 
     /// Load API resource and convert json response into a dictionary model `T`
-    public func load<T>(resource: Resource, parser: @escaping (JSON) -> T?, completion: @escaping (Result<T>) -> Void) {
-        guard let url = URL(string: resource.path, relativeTo: resource.url) else { return }
+    public func load<T>(resource: Resource, parser: @escaping (Data) -> T?, completion: @escaping (Result<T>) -> Void) {
+        guard let url = URL(string: resource.path, relativeTo: resource.host) else { return }
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10)
         urlRequest.allHTTPHeaderFields = resource.headers
         urlRequest.httpMethod = resource.method.rawValue
@@ -62,8 +62,7 @@ public final class APIService<Resource: APIResource> {
 
             guard
                 let data = data,
-                let json = try? JSONSerialization.jsonObject(with: data, options: []),
-                let result: T = parser(json) else {
+                let result: T = parser(data) else {
                 if (200...299).contains((response as! HTTPURLResponse).statusCode) {
                     DispatchQueue.main.async{ completion(.success(nil)) }
                 } else {
@@ -73,12 +72,10 @@ public final class APIService<Resource: APIResource> {
             }
 
             DispatchQueue.main.async{ completion(.success(result)) }
-
-            #if DEBUG
-                print("\(response)\n\(try? JSONSerialization.jsonObject(with: data, options: []))")
-            #endif
             }.resume()
     }
+
+    public init() { }
 }
 
 // MARK: - Error type
