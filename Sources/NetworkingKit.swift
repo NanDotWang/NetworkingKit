@@ -5,13 +5,7 @@
 //  Created by Nan Wang on {TODAY}.
 //  Copyright © 2017 NanTech. All rights reserved.
 //
-
 import Foundation
-
-/// MARK: - JSON Typealias
-public typealias JSON = Any
-public typealias JSONDictonary = [String: Any]
-public typealias StringDictonary = [String: String]
 
 /// MARK: - HTTP Methods
 public enum HTTPMethod: String {
@@ -31,8 +25,8 @@ public enum Result<T> {
 public struct APIResource<T> {
     let url: URL
     let method: HTTPMethod
-    let body: JSONDictonary
-    let headers: StringDictonary
+    let body: [String: Any]
+    let headers: [String: String]
     let parse: (Data) -> T?
 }
 
@@ -47,7 +41,7 @@ public final class APIService {
         if !resource.body.isEmpty {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: resource.body, options: [])
         }
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        URLSession.shared.dataTask(with: urlRequest) { data, _, error in
 
             switch error {
             case .some(let error as NSError) where error.code == NSURLErrorNotConnectedToInternet:
