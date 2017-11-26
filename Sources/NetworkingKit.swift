@@ -28,6 +28,28 @@ public struct APIResource<T> {
     let body: [String: Any]
     let headers: [String: String]
     let parse: (Data) -> T?
+
+    public init(url: URL, method: HTTPMethod = .get, body: [String: Any] = [:], headers: [String: String] = [:], parse: @escaping (Data) -> T?) {
+        self.url = url
+        self.method = method
+        self.body = body
+        self.headers = headers
+        self.parse = parse
+    }
+}
+
+/// An initializer that helps converting data to json object.
+public extension APIResource {
+    init(url: URL, method: HTTPMethod = .get, body: [String: Any] = [:], headers: [String: String] = [:], parseJSON: @escaping (Any) -> T?) {
+        self.url = url
+        self.method = method
+        self.body = body
+        self.headers = headers
+        self.parse = { data in
+            let json = try? JSONSerialization.jsonObject(with: data, options: [])
+            return json.flatMap(parseJSON)
+        }
+    }
 }
 
 // MARK: - API service class
@@ -36,8 +58,10 @@ public final class APIService {
     /// Load API resource and convert json response into a dictionary model `T`
     public func load<T>(resource: APIResource<T>, completion: ((Result<T>) -> Void)? = nil) {
         var urlRequest = URLRequest(url: resource.url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10)
-        urlRequest.allHTTPHeaderFields = resource.headers
         urlRequest.httpMethod = resource.method.rawValue
+        if !resource.headers.isEmpty {
+            urlRequest.allHTTPHeaderFields = resource.headers
+        }
         if !resource.body.isEmpty {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: resource.body, options: [])
         }
