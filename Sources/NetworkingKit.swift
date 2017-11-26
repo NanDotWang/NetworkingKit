@@ -36,15 +36,6 @@ public struct APIResource<T> {
     let parse: (Data) -> T?
 }
 
-/// Extension on HTTPURLResponse
-public extension HTTPURLResponse {
-
-    /// Check if a response is success or not
-    func isSuccess() -> Bool {
-        return (200...299).contains(self.statusCode)
-    }
-}
-
 // MARK: - API service class
 public final class APIService {
 
@@ -75,8 +66,6 @@ public final class APIService {
 
     public init() {}
 }
-
-// MARK: - Error type
 
 /// Error type that Networking throws in case an unrecoverable error was encountered
 public enum NetworkingError: Error {
