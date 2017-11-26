@@ -52,8 +52,24 @@ public extension APIResource {
     }
 }
 
+/// URLSessionProtol for mock url session data task
+public protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) -> URLSessionDataTask
+}
+
+/// Make URLSession confirms to URLSessionProtocol
+extension URLSession: URLSessionProtocol {}
+
 // MARK: - API service class
 public final class APIService {
+
+    /// URLSession to make the request
+    private let urlSession: URLSessionProtocol
+
+    /// Initialise with default shared url session
+    public init(urlSession: URLSessionProtocol = URLSession.shared) {
+        self.urlSession = urlSession
+    }
 
     /// Load API resource and convert json response into a dictionary model `T`
     public func load<T>(resource: APIResource<T>, completion: ((Result<T>) -> Void)? = nil) {
@@ -65,7 +81,7 @@ public final class APIService {
         if !resource.body.isEmpty {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: resource.body, options: [])
         }
-        URLSession.shared.dataTask(with: urlRequest) { data, _, error in
+        urlSession.dataTask(with: urlRequest) { data, _, error in
 
             switch error {
             case .some(let error as NSError) where error.code == NSURLErrorNotConnectedToInternet:
@@ -81,8 +97,6 @@ public final class APIService {
             }
             }.resume()
     }
-
-    public init() {}
 }
 
 /// Error type that Networking throws in case an unrecoverable error was encountered
