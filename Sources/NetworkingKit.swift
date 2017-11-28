@@ -2,7 +2,7 @@
 //  NetworkingKit.swift
 //  NanTech
 //
-//  Created by Nan Wang on {TODAY}.
+//  Created by Nan Wang on 2017-04-07.
 //  Copyright © 2017 NanTech. All rights reserved.
 //
 import Foundation
@@ -52,14 +52,6 @@ public extension APIResource {
     }
 }
 
-/// URLSessionProtol for mock url session data task
-public protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) -> URLSessionDataTask
-}
-
-/// Make URLSession confirms to URLSessionProtocol
-extension URLSession: URLSessionProtocol {}
-
 // MARK: - API service class
 public final class APIService {
 
@@ -81,7 +73,7 @@ public final class APIService {
         if !resource.body.isEmpty {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: resource.body, options: [])
         }
-        urlSession.dataTask(with: urlRequest) { data, _, error in
+        let task = urlSession.dataTask(with: urlRequest) { data, _, error in
 
             switch error {
             case .some(let error as NSError) where error.code == NSURLErrorNotConnectedToInternet:
@@ -95,7 +87,8 @@ public final class APIService {
                 }
                 DispatchQueue.main.async{ completion?(.success(result)) }
             }
-            }.resume()
+        }
+        task.resume()
     }
 }
 

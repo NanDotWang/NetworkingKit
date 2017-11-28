@@ -2,7 +2,7 @@
 //  NetworkingKitTests.swift
 //  NanTech
 //
-//  Created by Nan Wang on {TODAY}.
+//  Created by Nan Wang on 2017-04-07.
 //  Copyright © 2017 NanTech. All rights reserved.
 //
 
@@ -10,11 +10,25 @@ import Foundation
 import XCTest
 import NetworkingKit
 
+struct DummyModel { }
+
 class NetworkingKitTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        //// XCTAssertEqual(NetworkingKit().text, "Hello, World!")
+    
+    var apiService: APIService!
+    let mockURLSessionDataTask = MockURLSessionDataTask()
+    lazy var mockURLSession = MockURLSession(dataTask: mockURLSessionDataTask)
+    
+    override func setUp() {
+        super.setUp()
+        apiService = APIService(urlSession: mockURLSession)
+    }
+    
+    func testURLRequest() {
+        let url = URL(string: "www.apple.com")!
+        let apiResource = APIResource(url: url) { (json) in return DummyModel() }
+        apiService.load(resource: apiResource)
+        XCTAssert(mockURLSession.lastURL == url)
+        XCTAssertTrue(mockURLSessionDataTask.resumeWasCalled)
     }
 }
 
