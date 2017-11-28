@@ -23,7 +23,7 @@ class NetworkingKitTests: XCTestCase {
         apiService = APIService(urlSession: mockURLSession)
     }
     
-    func testURLRequest() {
+    func testAPIServiceLoadCorrectResource() {
         let url = URL(string: "www.apple.com")!
         let apiResource = APIResource(url: url) { (json) in return DummyModel() }
         apiService.load(resource: apiResource)
