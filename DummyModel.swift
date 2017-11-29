@@ -11,9 +11,9 @@ import Foundation
 /// Dummy model for testing purpose
 public struct DummyModel {
 
-    let data: Data
+    public let data: Data
 
-    init(data: Data) {
+    public init(data: Data) {
         self.data = data
     }
 }

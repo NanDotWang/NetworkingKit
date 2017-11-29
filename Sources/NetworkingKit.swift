@@ -7,7 +7,7 @@
 //
 import Foundation
 
-/// MARK: - HTTP Methods
+/// HTTP Methods
 public enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
@@ -15,19 +15,13 @@ public enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-/// MARK: - Result Enum
-public enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
-/// MARK: - API Resource
+/// API Resource
 public struct APIResource<T> {
-    let url: URL
-    let method: HTTPMethod
-    let body: [String: Any]
-    let headers: [String: String]
-    let parse: (Data) -> T?
+    public let url: URL
+    public let method: HTTPMethod
+    public let body: [String: Any]
+    public let headers: [String: String]
+    public let parse: (Data) -> T?
 
     public init(url: URL, method: HTTPMethod = .get, body: [String: Any] = [:], headers: [String: String] = [:], parse: @escaping (Data) -> T?) {
         self.url = url
@@ -52,8 +46,13 @@ public extension APIResource {
     }
 }
 
-// MARK: - API service class
+// API service
 public final class APIService {
+    /// Result enum
+    public enum Result<T> {
+        case success(T)
+        case failure(NetworkingError)
+    }
 
     /// URLSession to make the request
     private let urlSession: URLSessionProtocol
@@ -79,7 +78,7 @@ public final class APIService {
             case .some(let error as NSError) where error.code == NSURLErrorNotConnectedToInternet:
                 DispatchQueue.main.async{ completion?(.failure(NetworkingError.noInternet)) }
             case .some(let error):
-                DispatchQueue.main.async{ completion?(.failure(error)) }
+                DispatchQueue.main.async{ completion?(.failure(NetworkingError.other(error))) }
             case .none:
                 guard let result = data.flatMap(resource.parse) else {
                     DispatchQueue.main.async{ completion?(.failure(NetworkingError.parsingFailed)) }
@@ -92,12 +91,14 @@ public final class APIService {
     }
 }
 
-/// Error type that Networking throws in case an unrecoverable error was encountered
+/// Networking errors
 public enum NetworkingError: Error {
     /// Not connected to internet
     case noInternet
     /// Parsing data failed
     case parsingFailed
+    /// Other errors
+    case other(Error)
 }
 
 /// Extension making `NetworkingError` conform to `CustomStringConvertible`
@@ -106,6 +107,14 @@ extension NetworkingError: CustomStringConvertible {
         switch self {
         case .noInternet: return "[Networking] Not connected to internet"
         case .parsingFailed: return "[Networking] Parsing failed"
+        case .other(let error): return "[Networking] \(error.localizedDescription)"
         }
+    }
+}
+
+/// Make networking errors equatable
+extension NetworkingError: Equatable {
+    public static func ==(lhs: NetworkingError, rhs: NetworkingError) -> Bool {
+        return lhs.description == rhs.description
     }
 }

@@ -11,6 +11,9 @@ import NetworkingKit
 
 final class MockURLSession: URLSessionProtocol {
     
+    var mockData: Data?
+    var mockError: Error?
+    
     private (set) var lastURL: URL?
     private let dataTask: MockURLSessionDataTask
     
@@ -20,6 +23,7 @@ final class MockURLSession: URLSessionProtocol {
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         lastURL = request.url
+        completionHandler(mockData, nil, mockError)
         return dataTask
     }
 }
