@@ -65,7 +65,7 @@
 		282557AE1FCDA83600BC9FC0 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = URLSessionDataTaskProtocol.swift; path = Tests/URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		282557B01FCDA8B400BC9FC0 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSessionDataTask.swift; path = Tests/MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		28AD20841FCD6178001ED2C8 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSession.swift; path = Tests/MockURLSession.swift; sourceTree = "<group>"; };
-		398A30101FCE860000259D9D /* DummyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyModel.swift; sourceTree = "<group>"; };
+		398A30101FCE860000259D9D /* DummyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyModel.swift; path = Tests/DummyModel.swift; sourceTree = "<group>"; };
 		52D6D97C1BEFF229002C0205 /* NetworkingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* NetworkingKit-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NetworkingKit-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9961BEFF375002C0205 /* NetworkingKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingKit.swift; path = Sources/NetworkingKit.swift; sourceTree = "<group>"; };
