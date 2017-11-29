@@ -10,8 +10,6 @@ import Foundation
 import XCTest
 import NetworkingKit
 
-struct DummyModel { }
-
 class NetworkingKitTests: XCTestCase {
     
     var apiService: APIService!
@@ -25,7 +23,7 @@ class NetworkingKitTests: XCTestCase {
     
     func testAPIServiceLoadCorrectResource() {
         let url = URL(string: "www.apple.com")!
-        let apiResource = APIResource(url: url) { (json) in return DummyModel() }
+        let apiResource = APIResource(url: url, parse: DummyModel.init)
         apiService.load(resource: apiResource)
         XCTAssert(mockURLSession.lastURL == url)
         XCTAssertTrue(mockURLSessionDataTask.resumeWasCalled)
