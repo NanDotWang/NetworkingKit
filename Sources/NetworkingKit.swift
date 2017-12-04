@@ -92,29 +92,20 @@ public final class APIService {
 }
 
 /// Networking errors
-public enum NetworkingError: Error {
+public enum NetworkingError: LocalizedError {
     /// Not connected to internet
     case noInternet
     /// Parsing data failed
     case parsingFailed
     /// Other errors
     case other(Error)
-}
-
-/// Extension making `NetworkingError` conform to `CustomStringConvertible`
-extension NetworkingError: CustomStringConvertible {
-    public var description: String {
+    
+    /// Error description
+    public var errorDescription: String? {
         switch self {
         case .noInternet: return "[Networking] Not connected to internet"
         case .parsingFailed: return "[Networking] Parsing failed"
         case .other(let error): return "[Networking] \(error.localizedDescription)"
         }
-    }
-}
-
-/// Make networking errors equatable
-extension NetworkingError: Equatable {
-    public static func ==(lhs: NetworkingError, rhs: NetworkingError) -> Bool {
-        return lhs.description == rhs.description
     }
 }
