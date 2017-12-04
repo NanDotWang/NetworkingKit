@@ -1,5 +1,8 @@
 # NetworkingKit
-![Xcode 9.1+](https://img.shields.io/badge/Xcode-9.1%2B-blue.svg)
-![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
-![Swift 4.0+](https://img.shields.io/badge/Swift-4.0%2B-orange.svg)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+This is a homemade Networking framework, and this is the networking approach that I preferred. 
+
+## Features
+- [x] **APIResource**: Use **APIResource** to capture all api request related content.
+- [x] **APIService**: Use **APIService** to load any generic **APIResource**.
+- [x] **Error handling**: Proper network error handling.
