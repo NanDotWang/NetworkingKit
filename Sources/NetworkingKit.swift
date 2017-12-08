@@ -76,15 +76,15 @@ public final class APIService {
 
             switch error {
             case .some(let error as NSError) where error.code == NSURLErrorNotConnectedToInternet:
-                DispatchQueue.main.async{ completion?(.failure(NetworkingError.noInternet)) }
+                completion?(.failure(NetworkingError.noInternet))
             case .some(let error):
-                DispatchQueue.main.async{ completion?(.failure(NetworkingError.other(error))) }
+                completion?(.failure(NetworkingError.other(error)))
             case .none:
                 guard let result = data.flatMap(resource.parse) else {
-                    DispatchQueue.main.async{ completion?(.failure(NetworkingError.parsingFailed)) }
+                    completion?(.failure(NetworkingError.parsingFailed))
                     return
                 }
-                DispatchQueue.main.async{ completion?(.success(result)) }
+                completion?(.success(result))
             }
         }
         task.resume()
@@ -107,5 +107,12 @@ public enum NetworkingError: LocalizedError {
         case .parsingFailed: return "[Networking] Parsing failed"
         case .other(let error): return "[Networking] \(error.localizedDescription)"
         }
+    }
+}
+
+/// Make `NetworkingError` Equatable
+extension NetworkingError: Equatable {
+    public static func ==(lhs: NetworkingError, rhs: NetworkingError) -> Bool {
+        return lhs.errorDescription == rhs.errorDescription
     }
 }
