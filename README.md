@@ -1,6 +1,6 @@
 # NetworkingKit
 
-This is a homemade Networking framework, and this is the networking approach that I preferred. 
+This is the networking approach that I preferred. 
 
 ## Features
 - [x] **APIResource**: Use **APIResource** to capture all api request related content.
